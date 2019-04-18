@@ -19,7 +19,7 @@ public class UserOrder {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@ManyToOne
 	@JoinColumn(name = "USER_EMAIL", updatable = false)
 	private User user;
 

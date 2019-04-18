@@ -41,8 +41,7 @@ public class User {
 	private List<Role> roles;
 
 	@OneToMany
-	@JoinColumn(name = "USER_EMAIL")
-	@ElementCollection(targetClass = UserOrder.class)
+	@JoinColumn(name="user_email")
 	private Set<UserOrder> orders;
 
 	@OneToOne(fetch = FetchType.LAZY, optional = false, mappedBy="user")
