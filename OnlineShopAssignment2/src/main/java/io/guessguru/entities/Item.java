@@ -87,12 +87,14 @@ public class Item {
 		this.price = price;
 	}
 
-	public Item(String itemName, String manufacturer, String category, double price, int quantity) {
+	public Item(String itemName, String manufacturer, String category, double price) {
 		this.itemName = itemName;
 		this.manufacturer = manufacturer;
 		this.category = category;
 		this.price = price;
-		this.quantity = quantity;
+	}
+
+	public Item() {
 	}
 
 }
