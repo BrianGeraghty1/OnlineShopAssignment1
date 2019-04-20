@@ -81,7 +81,7 @@ public class ItemController {
 		return "views/listItems";
 	}
 
-	@GetMapping("/addToCart")
+/*	@GetMapping("/addToCart")
 	public String addToCart(Model model, @RequestParam("id") int id) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findOne(auth.getName());
@@ -94,7 +94,7 @@ public class ItemController {
 		}
 		else {
 			return "views/noStock";
-		}
+		}*/
 	}
 
-}
+

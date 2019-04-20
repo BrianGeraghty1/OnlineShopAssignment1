@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Item {
@@ -18,8 +19,11 @@ public class Item {
 	private String category;
 	private int quantity;
 	private double price;
-	@ManyToMany(mappedBy = "items")
-	private Set<Cart> carts;
+	
+	@OneToMany(mappedBy="item")
+	private Set<CartItems> cartItems;
+/*	@ManyToMany(mappedBy = "items")
+	private Set<Cart> carts;*/
 	@ManyToMany(mappedBy = "orderItems")
 	private Set<UserOrder> orders;
 
@@ -29,14 +33,6 @@ public class Item {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-	
-	public Set<Cart> getCarts() {
-		return carts;
-	}
-
-	public void setCarts(Set<Cart> carts) {
-		this.carts = carts;
 	}
 
 	public Set<UserOrder> getOrders() {

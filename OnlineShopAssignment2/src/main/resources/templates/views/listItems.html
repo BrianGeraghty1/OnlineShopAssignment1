@@ -8,12 +8,23 @@
 <body>
 
 	<div layout:fragment="content" class="container mySpace">
-	     <form action="/products" class="form-inline">
-	        <div class="form-group mb-2">
-	         <input type="text" class="form-control" name="itemName" placeholder="Search Items" />
-	         <input type="submit" value="Search"  class="btn btn-default"/>
-	        </div>
-	     </form>
+		<form action="/products" class="form-inline">
+			<div class="form-group mb-2">
+				<input type="text" class="form-control" name="itemName"
+					placeholder="Search Items" /> <input type="submit" value="Search"
+					class="btn btn-default" />
+			</div>
+		</form>
+		<div class="alert alert-success" id="alert-item-added-success"
+			role="alert" th:if="${successMessage}">
+			Item added to cart!
+			<script>
+				$("#alert-item-added-success").fadeTo(5000, 500).slideUp(500,
+						function() {
+							$("#alert-item-added-success").slideUp(500);
+						});
+			</script>
+		</div>
 		<div class="card">
 			<div class="card card-body">
 				<table class="table table-hover table-striped table-bordered">
@@ -33,8 +44,12 @@
 							<td th:text="${item.category}"></td>
 							<td th:text="${item.price}"></td>
 							<td th:text="${item.quantity}"></td>
-							<td sec:authorize="hasRole('ROLE_USER')"><a  method="POST" th:href="@{/addToCart(id=${item.id})}" class="btn btn-dark">Add To Cart</a></td>
-							<td sec:authorize="hasRole('ROLE_ADMIN')"><a  th:href="@{/updateQuantity(id=${item.id})}" class="btn btn-dark">Update Quantity</a></td>
+							<td sec:authorize="hasRole('ROLE_USER')"><a
+								th:href="@{/addToCart(id=${item.id})}" class="btn btn-dark">Add
+									To Cart</a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+								th:href="@{/updateQuantity(id=${item.id})}" class="btn btn-dark">Update
+									Quantity</a></td>
 						</tr>
 					</tbody>
 

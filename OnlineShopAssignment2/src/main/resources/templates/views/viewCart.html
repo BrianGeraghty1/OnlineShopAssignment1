@@ -21,16 +21,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="item:${items}">
-							<td th:text="${item.itemName}"></td>
-							<td th:text="${item.manufacturer}"></td>
-							<td th:text="${item.category}"></td>
-							<td th:text="${item.price}"></td>
-							<td th:text="${item.quantity}"></td>
+						<tr th:each="cartItems:${cartItems}">
+							<td th:text="${cartItems.item.itemName}"></td>
+							<td th:text="${cartItems.item.manufacturer}"></td>
+							<td th:text="${cartItems.item.category}"></td>
+							<td th:text="${cartItems.item.price}"></td>
+							<td th:text="${cartItems.amount}"></td>
 						</tr>
 					</tbody>
 
 				</table>
+				<h2>Your current balance is: &euro;<span th:utext="${total}"></span></h2>
 			</div>
 		</div>
 	</div>
