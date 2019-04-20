@@ -62,4 +62,8 @@ public class Cart {
 	public Cart() {
 		
 	}
+	
+	public void addItem(Item item) {
+		items.add(item);
+	}
 }

@@ -10,32 +10,47 @@
 	<div layout:fragment="content" class="container mySpace">
 		<div class="alert alert-info" th:if="${exist}">
 			<p class="text text-center">Item with this name already Exists</p>
-			</div>
-			<form th:action="@{/addProduct}" th:object="${item}" method="post">
-
-				<div class="form-group">
-					<label for="itemName" class="form-control-label"
-						style="color: white;">Item Name</label> <input type="text"
-						class="form-control" th:field="*{itemName}" id="itemName" />
-				</div>
-				<div class="form-group">
-					<label for="manufacturer" class="form-control-label"
-						style="color: white;">Manufacturer</label> <input type="text"
-						class="form-control" th:field="*{manufacturer}" id="manufacturer" />
-				</div>
-				<div class="form-group">
-					<label for="category" class="form-control-label"
-						style="color: white;">Category</label> <input type="text"
-						class="form-control" th:field="*{category}" id="category" />
-				</div>
-				<div class="form-group">
-					<label for="price" class="form-control-label" style="color: white;">Price</label>
-					<input type="number" class="form-control" th:field="*{price}"
-						id="price" />
-				</div>
-				<input type="submit" value="Submit" class="btn btn-primary" />
-
-			</form>
 		</div>
+		<form th:action="@{/addProduct}" th:object="${item}" method="post">
+
+			<div class="form-group">
+				<label for="itemName" class="form-control-label"
+					style="color: white;">Item Name</label> <input type="text"
+					class="form-control" th:field="*{itemName}" id="itemName" />
+			</div>
+			<div class="form-group">
+				<label for="manufacturer" class="form-control-label"
+					style="color: white;">Manufacturer</label> <input type="text"
+					class="form-control" th:field="*{manufacturer}" id="manufacturer" />
+			</div>
+			<div class="alert alert-danger" id="alert-category-error"
+				role="alert" th:if="${selection}">
+				Select a category
+				<script>
+					$("#alert-category-error").fadeTo(2000, 500).slideUp(500,
+							function() {
+								$("#alert-category-error").slideUp(500);
+							});
+				</script>
+			</div>
+			<div class="form-group">
+				<label class="col-form-label" for="category">Category: </label> <select
+					th:field="*{category}" class="form-control" id="category"
+					name="category">
+					<option value="default">Select a category</option>
+					<option value="Gaming">Gaming</option>
+					<option value="Computer">Computer</option>
+					<option value="Television">Television</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="price" class="form-control-label" style="color: white;">Price</label>
+				<input type="number" class="form-control" th:field="*{price}"
+					id="price" />
+			</div>
+			<input type="submit" value="Submit" class="btn btn-primary" />
+
+		</form>
+	</div>
 </body>
 </html>

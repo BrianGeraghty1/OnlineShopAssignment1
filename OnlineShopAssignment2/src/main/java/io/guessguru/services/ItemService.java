@@ -1,5 +1,8 @@
 package io.guessguru.services;
 
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +16,7 @@ public class ItemService {
 	@Autowired
 	private ItemRepository itemRepository;
 	
-	public void addItem(Item item) {
+	public void saveItem(Item item) {
 		itemRepository.save(item);
 	}
 	
@@ -24,6 +27,14 @@ public class ItemService {
 			return true;
 		
 		return false;
+	}
+	
+	public List<Item> findByItemName(String itemName) {
+		return  itemRepository.findByItemNameLike("%"+itemName+"%");
+	}
+	
+	public Item findById(int id) {
+		return itemRepository.findById(id);
 	}
 
 }

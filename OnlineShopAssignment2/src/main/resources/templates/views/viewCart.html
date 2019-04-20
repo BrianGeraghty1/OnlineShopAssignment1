@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<title>Your Cart</title>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mySpace">
+		<div class="card">
+			<div class="card card-body">
+				<table class="table table-hover table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Manufacturer</th>
+							<th>Category</th>
+							<th>Price</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item:${items}">
+							<td th:text="${item.itemName}"></td>
+							<td th:text="${item.manufacturer}"></td>
+							<td th:text="${item.category}"></td>
+							<td th:text="${item.price}"></td>
+							<td th:text="${item.quantity}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

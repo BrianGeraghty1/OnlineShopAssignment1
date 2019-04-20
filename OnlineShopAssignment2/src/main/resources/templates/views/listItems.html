@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<title>Index Page</title>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mySpace">
+	     <form action="/products" class="form-inline">
+	        <div class="form-group mb-2">
+	         <input type="text" class="form-control" name="itemName" placeholder="Search Items" />
+	         <input type="submit" value="Search"  class="btn btn-default"/>
+	        </div>
+	     </form>
+		<div class="card">
+			<div class="card card-body">
+				<table class="table table-hover table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Manufacturer</th>
+							<th>Category</th>
+							<th>Price</th>
+							<th>Quantity</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="item:${items}">
+							<td th:text="${item.itemName}"></td>
+							<td th:text="${item.manufacturer}"></td>
+							<td th:text="${item.category}"></td>
+							<td th:text="${item.price}"></td>
+							<td th:text="${item.quantity}"></td>
+							<td sec:authorize="hasRole('ROLE_USER')"><a  method="POST" th:href="@{/addToCart(id=${item.id})}" class="btn btn-dark">Add To Cart</a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a  th:href="@{/updateQuantity(id=${item.id})}" class="btn btn-dark">Update Quantity</a></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

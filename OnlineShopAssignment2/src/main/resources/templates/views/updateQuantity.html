@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<meta charset="ISO-8859-1">
+<title>Top Up Account</title>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mySpace">
+		<div class="jumbotron jumbotron-fluid">
+			<div class="container">
+				<h2>
+					The current quantity of this item is <span th:utext="${quantity}"></span>
+				</h2>
+			</div>
+		</div>
+		<form th:action="@{/updateQuantity}" method="post">
+		<input type="hidden" name="id" th:value=${id} />
+					<div class="form-group">
+				<label for="quantity" class="form-control-label" style="color: white;">Amount of stock you are adding</label> <input type="number" class="form-control" name="quantity"
+					id="quantity" />
+			</div>
+		<input type="submit" value="Submit" class="btn btn-primary" />
+		</form>
+
+	</div>
+</body>
+</html>
