@@ -26,7 +26,16 @@ public class UserOrder {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "order_items", joinColumns = @JoinColumn(name = "order_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
 	private Set<Item> orderItems;
+	private double total;
 	private String paymentMethod;
+
+	public double getTotal() {
+		return total;
+	}
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
 
 	public int getId() {
 		return id;
@@ -77,5 +86,17 @@ public class UserOrder {
 	public UserOrder() {
 		
 	}
+
+	public UserOrder(User user, Set<Item> orderItems, double total) {
+		this.user = user;
+		this.orderItems = orderItems;
+		this.total = total;
+	}
+	
+	public boolean pay(PaymentMethod method, Cart cart) {
+		double totalCost = cart.calculateTotal();
+		return method.pay(totalCost);
+	}
+	
 	
 }

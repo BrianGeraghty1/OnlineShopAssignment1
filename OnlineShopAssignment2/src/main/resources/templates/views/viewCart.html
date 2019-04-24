@@ -31,7 +31,11 @@
 					</tbody>
 
 				</table>
-				<h2>Your current balance is: &euro;<span th:utext="${total}"></span></h2>
+				<h2>
+					Your current total is: <b>&euro;<span th:utext="${total}"></span></b>
+				</h2>
+				<a th:href="@{/order(id=${cart.id})}" class="btn btn-dark">
+					Order</a>
 			</div>
 		</div>
 	</div>

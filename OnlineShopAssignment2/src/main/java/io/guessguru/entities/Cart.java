@@ -1,5 +1,6 @@
 package io.guessguru.entities;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -22,12 +23,6 @@ public class Cart {
 	private User user;
 	@OneToMany(mappedBy="cart")
 	private Set<CartItems> cartItems;
-	/*@ManyToMany
-	@JoinTable(name = "CART_ITEMS", joinColumns = {
-			@JoinColumn(name = "CART_ID", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "ITEM_ID", referencedColumnName = "id") })
-	@ElementCollection(targetClass = Item.class)
-	private Set<Item> items;*/
 
 	public Set<CartItems> getCartItems() {
 		return cartItems;
@@ -61,7 +56,17 @@ public class Cart {
 		
 	}
 	
-/*	public void addItem(Item item) {
-		items.add(item);
-	}*/
+	public double calculateTotal() {
+		double total =0;
+		
+		ArrayList<CartItems> cart_items = new ArrayList<CartItems>();
+		cart_items.addAll(this.getCartItems());
+		for(int i=0; i<cart_items.size(); i++) {
+			Item item = cart_items.get(i).getItem();
+			total += (item.getPrice()*cart_items.get(i).getAmount());
+		}
+		
+		return total;
+	}
+	
 }

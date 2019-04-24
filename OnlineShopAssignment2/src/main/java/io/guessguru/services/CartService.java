@@ -24,5 +24,13 @@ public class CartService {
 	public void addItem(Item item, Cart cart) {
 		
 	}
+	
+	public Cart findById(int id) {
+		return cartRepository.findById(id);
+	}
+	
+	public Cart findByUser(String email) {
+		return cartRepository.findByUser(email);
+	}
 
 }

@@ -8,6 +8,6 @@ import io.guessguru.entities.CartItems;
 import io.guessguru.entities.Item;
 
 public interface CartItemsRepository  extends JpaRepository<CartItems, Long>{
-	CartItems findByCartId(int cartId);
+	List<CartItems> findByCartId(int cartId);
 	CartItems findByItemId(int itemId);
 }

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<title>Index Page</title>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mySpace">
+
+				<div class="container">
+					<h2>
+						Total payment: &euro;<span th:utext="${total}"></span>
+					</h2>
+					<form th:action="@{/order}" method="POST"
+						th:object="${userOrder}">
+						<input type="hidden" name="total" th:value="${total}" />
+						<div class="alert alert-danger" id="error-alert-order"
+							role="alert" th:if="${errorMessage}">
+							Not enough stock!
+							<script>
+								$("#error-alert-order").fadeTo(2000, 500)
+										.slideUp(
+												500,
+												function() {
+													$("#error-alert-order")
+															.slideUp(500);
+												});
+							</script>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="payment_method">Select
+								Payment Method: </label> <select class="form-control"
+								id="payment_method" name="payment_method">
+								<option value="default">Select a payment method</option>
+								<option value="Visa">Visa</option>
+								<option value="Mastercard">Mastercard</option>
+							</select> <br />
+							<p>Visa must be 16 digits</p>
+							<p>Mastercard must be 15 digits</p>
+						</div>
+						<div class="alert alert-danger" id="visa-error" role="alert"
+							th:if="${visaError}">
+							Visa payment failed!
+							<script>
+								$("#visa-error").fadeTo(2000, 500).slideUp(500,
+										function() {
+											$("#visa-error").slideUp(500);
+										});
+							</script>
+						</div>
+						<div class="alert alert-danger" id="mastercard-error" role="alert"
+							th:if="${mastercardError}">
+							Mastercard payment failed!
+							<script>
+								$("#mastercard-error").fadeTo(2000, 500)
+										.slideUp(
+												500,
+												function() {
+													$("#mastercard-error")
+															.slideUp(500);
+												});
+							</script>
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="name">Card Name: </label> <input
+								type="text" class="form-control" id="name" name="name"
+								placeholder="Cardholder name" required autofocus />
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="cardNumber">Card
+								Number: </label> <input type="text" class="form-control" id="cardNumber"
+								name="cardNumber" placeholder="Card number" required autofocus />
+						</div>
+						<div class="form-group">
+							<label class="col-form-label" for="expires">Expiry Date:
+							</label> <input type="date" class="form-control" id="expires"
+								name="expires" placeholder="Expiry date" required autofocus />
+						</div>
+						<button type="submit" class="btn btn-lg btn-secondary btn-block">Pay
+							Now</button>
+					</form>
+				</div>
+			</div>
+
+</body>
+</html>

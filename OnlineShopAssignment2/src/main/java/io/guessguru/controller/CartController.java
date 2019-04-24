@@ -43,11 +43,9 @@ public class CartController {
 		cartItems.addAll(cart.getCartItems());
 		model.addAttribute("cartItems", cartItems);
 		model.addAttribute("name", user.getName());
-		double price = 0;
-		for (int j = 0; j < cartItems.size(); j++) {
-			price = price + ((cartItems.get(j).getItem().getPrice()) * (cartItems.get(j).getAmount()));
-		}
+		double price = cart.calculateTotal();
 		model.addAttribute("total", price);
+		model.addAttribute("cart", cart);
 		return "views/viewCart";
 	}
 

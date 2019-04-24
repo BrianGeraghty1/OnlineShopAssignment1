@@ -6,6 +6,6 @@ import io.guessguru.entities.Cart;
 
 public interface CartRepository  extends JpaRepository<Cart, Integer>{
 	Cart findById(int id);
-	Cart findByUser(int userId);
+	Cart findByUser(String email);
  
 }
