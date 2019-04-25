@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<title>Index Page</title>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mySpace">
+
+		<div class="card">
+			<div class="card card-body">
+				<div class="jumbotron jumbotron-fluid">
+					<div class="container">
+						<h2 class="display-4">
+							<span th:utext="${name}"></span>
+						</h2>
+						<p class="lead">
+							Item Manufacturer: <span th:utext="${manufacturer}"></span>
+						</p>
+						<p class="lead">
+							Item Category: <span th:utext="${category}"></span>
+						</p>
+						<p class="lead">
+							Price of product: &euro;<span th:utext="${price}"></span>
+						</p>
+					</div>
+				</div>
+				<h2>REVIEWS</h2>
+				<div class="card">
+					<div class="card card-body">
+						<table class="table table-hover table-bordered">
+							<thead>
+								<tr>
+									<th>Name</th>
+									<th>Rating</th>
+									<th>Comment</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="rating:${ratings}">
+									<td th:text="${rating.user?.email}"></td>
+									<td th:text="${rating.rate}"></td>
+									<td th:text="${rating.comment}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<form th:action="@{/rating}" method="POST"
+					th:object="${rating}">
+					<input type="hidden" name="id" th:value="${item.id}" />
+					<div class="alert alert-success" id="alert-rating-success"
+						role="alert" th:if="${ratingSuccess}">
+						Review successful!
+						<script>
+							$("#alert-rating-success").fadeTo(2000, 500)
+									.slideUp(
+											500,
+											function() {
+												$("#alert-rating-success")
+														.slideUp(500);
+											});
+						</script>
+					</div>
+					<div class="form-group">
+						<label class="col-form-label" for="rate">Rating (1-5): </label> <select
+							th:field="*{rate}" class="form-control" id="rate" name="rate">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label class="col-form-label" for="comment">Comment: </label> <input
+							type="text" th:field="*{comment}" class="form-control" id="comment"
+							placeholder="Item review" required autofocus />
+					</div>
+					<button type="submit" class="btn btn-lg btn-secondary btn-block">Add
+						Review</button>
+					<div class="alert alert-danger" id="alert-rating-error"
+						role="alert" th:if="${errorRatingExists}">
+						You have already reviewed this item!
+						<script>
+							$("#alert-rating-error").fadeTo(2000, 500).slideUp(
+									500, function() {
+										$("#alert-rating-error").slideUp(500);
+									});
+						</script>
+					</div>
+				</form>
+
+			</div>
+		</div>
+		</br>
+	</div>
+</body>
+</html>
+

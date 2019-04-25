@@ -54,6 +54,7 @@
 							<td th:text="${item.category}"></td>
 							<td th:text="${item.price}"></td>
 							<td th:text="${item.quantity}"></td>
+							<td><a th:href="@{/viewItem(id=${item.id})}" class="btn btn-dark">View Item</a></td>
 							<td sec:authorize="hasRole('ROLE_USER')"><a
 								th:href="@{/addToCart(id=${item.id})}" class="btn btn-dark">Add
 									To Cart</a></td>

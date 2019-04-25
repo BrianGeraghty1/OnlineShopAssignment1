@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -26,6 +27,26 @@ public class Item {
 	private Set<Cart> carts;*/
 	@ManyToMany(mappedBy = "orderItems")
 	private Set<UserOrder> orders;
+	
+	@OneToMany
+	@JoinColumn(name = "item_id")
+	private Set<Rating> ratings;
+
+	public Set<CartItems> getCartItems() {
+		return cartItems;
+	}
+
+	public void setCartItems(Set<CartItems> cartItems) {
+		this.cartItems = cartItems;
+	}
+
+	public Set<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
+	}
 
 	public int getId() {
 		return id;

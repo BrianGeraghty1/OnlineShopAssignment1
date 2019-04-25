@@ -46,7 +46,11 @@ public class User {
 
 	@OneToOne(fetch = FetchType.LAZY, optional = false, mappedBy="user")
 	private Cart cart;
-
+	
+	@OneToMany
+	@JoinColumn(name = "user_email")
+	private Set<Rating> ratings;
+	
 	public Set<UserOrder> getOrders() {
 		return orders;
 	}

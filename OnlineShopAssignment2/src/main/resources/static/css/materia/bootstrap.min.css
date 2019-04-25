@@ -9868,7 +9868,7 @@ textarea:not(textarea), textarea.form-control:not(textarea), input.form-control:
 	[type=password].form-control:not(textarea), [type=email].form-control:not(textarea),
 	[type=tel].form-control:not(textarea), [contenteditable].form-control:not(textarea)
 	{
-	color: white;
+	color: black;
 	height: calc(3.21875rem + 2px)
 }
 
