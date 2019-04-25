@@ -101,6 +101,8 @@ public class OrderController {
 						request.getParameter("expires"));
 
 				if (order.pay(visa, cart)) {
+					order.setPaymentMethod("Visa");
+					order.setAddress(user.getAddress());
 					orderService.saveOrder(order);
 					itemService.updateStock(cart_items);
 					cartItemsService.emptyCart(cartItemsService.findByCartId(cart.getId()));
@@ -118,6 +120,7 @@ public class OrderController {
 						request.getParameter("expires"));
 
 				if (order.pay(mastercard, cart)) {
+					order.setPaymentMethod("MasterCard");
 					orderService.saveOrder(order);
 					itemService.updateStock(cart_items);
 					cartItemsService.emptyCart(cartItemsService.findByCartId(cart.getId()));
@@ -138,4 +141,27 @@ public class OrderController {
 		return "views/order";
 		}
 	}
+	
+	@GetMapping("/viewOrder")
+	public String viewOrder(Model model, @RequestParam("id") int id) {
+		
+		UserOrder order = orderService.findById(id);
+		model.addAttribute("items", order.getOrderItems());
+		
+		return "views/viewOrder";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

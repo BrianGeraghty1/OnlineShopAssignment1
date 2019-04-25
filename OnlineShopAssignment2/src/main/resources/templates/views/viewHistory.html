@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/main_layout}">
+<head>
+<title>Index Page</title>
+</head>
+<body>
+
+	<div layout:fragment="content" class="container mySpace">
+		<div class="card">
+		<h2><span th:utext="${name}"/> order history</h2>
+			<div class="card card-body">
+				<table class="table table-hover table-striped table-bordered">
+					<thead>
+						<tr>
+							<th>Total</th>
+							<th>Address</th>
+							<th>Payment Type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="userOrder:${orders}">
+							<td th:text="${userOrder.total}"></td>
+							<td th:text="${userOrder.address}"></td>
+							<td th:text="${userOrder.paymentMethod}"></td>
+						</tr>
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

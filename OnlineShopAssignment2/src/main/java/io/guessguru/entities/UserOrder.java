@@ -28,6 +28,15 @@ public class UserOrder {
 	private Set<Item> orderItems;
 	private double total;
 	private String paymentMethod;
+	private String address;
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public double getTotal() {
 		return total;
