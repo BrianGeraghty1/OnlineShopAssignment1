@@ -1,23 +1,17 @@
 package io.guessguru.controller;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import io.guessguru.entities.Cart;
 import io.guessguru.entities.Item;
-import io.guessguru.entities.User;
 import io.guessguru.services.CartService;
 import io.guessguru.services.ItemService;
 import io.guessguru.services.UserService;
@@ -80,21 +74,12 @@ public class ItemController {
 		model.addAttribute("items", itemService.findByItemName(itemName));
 		return "views/listItems";
 	}
-
-/*	@GetMapping("/addToCart")
-	public String addToCart(Model model, @RequestParam("id") int id) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		User user = userService.findOne(auth.getName());
-		Cart cart = user.getCart();
-		Item item = itemService.findById(id);
-		if (item.getQuantity()>0) {
-		cart.addItem(item);
-		cartService.saveCart(cart);
-		return "views/success";
-		}
-		else {
-			return "views/noStock";
-		}*/
+	@DeleteMapping("/deleteItem")
+	public String deleteProduct(Model model, @RequestParam("id") int id) {
+		itemService.deleteItem(id);
+		model.addAttribute("items", itemService.findByItemName(""));
+		
+		return "views/listItems";
+		
 	}
-
-
+}

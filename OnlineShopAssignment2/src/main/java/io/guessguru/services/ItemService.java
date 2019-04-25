@@ -1,13 +1,13 @@
 package io.guessguru.services;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import io.guessguru.entities.CartItems;
 import io.guessguru.entities.Item;
-import io.guessguru.entities.User;
 import io.guessguru.repositories.ItemRepository;
 
 @Service
@@ -35,6 +35,21 @@ public class ItemService {
 	
 	public Item findById(int id) {
 		return itemRepository.findById(id);
+	}
+	
+	public void updateStock(ArrayList<CartItems> cartItems) {
+		for (int i =0; i< cartItems.size(); i++) {
+			CartItems cartItem = cartItems.get(i);
+			Item item = cartItem.getItem();
+			
+			int stockLevel = item.getQuantity() - cartItem.getAmount();
+			item.setQuantity(stockLevel);
+			this.saveItem(item);
+		}
+	}
+	
+	public void deleteItem(int id) {
+		itemRepository.delete(id);
 	}
 
 }

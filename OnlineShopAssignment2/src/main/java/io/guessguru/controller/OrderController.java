@@ -24,10 +24,12 @@ import io.guessguru.entities.MasterCard;
 import io.guessguru.entities.User;
 import io.guessguru.entities.UserOrder;
 import io.guessguru.entities.Visa;
+import io.guessguru.entities.PurchaseFacadeImp;
 import io.guessguru.services.CartItemsService;
 import io.guessguru.services.CartService;
 import io.guessguru.services.ItemService;
 import io.guessguru.services.OrderService;
+import io.guessguru.services.StockService;
 import io.guessguru.services.UserService;
 
 @Controller
@@ -46,6 +48,8 @@ public class OrderController {
 
 	@Autowired
 	private ItemService itemService;
+
+	public PurchaseFacadeImp purchaseFacade;
 
 	@GetMapping("/order")
 	public String order(Model model, @RequestParam("id") int id) {
@@ -78,62 +82,60 @@ public class OrderController {
 		String view = "";
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		User user = userService.findOne(auth.getName());
-
+		Set<Item> items = new HashSet<>();
 		Cart cart = user.getCart();
 		ArrayList<CartItems> cart_items = new ArrayList<CartItems>();
 		cart_items.addAll(cart.getCartItems());
 
-		Set<Item> items = new HashSet<>();
+		purchaseFacade = new PurchaseFacadeImp();
 
-		for (int i = 0; i < cart_items.size(); i++) {
-			CartItems cartItem = cart_items.get(i);
-			Item item = itemService.findById(cartItem.getItem().getId());
+		if (purchaseFacade.placeOrder(cart_items)) {
 
-			if (cartItem.getAmount() > item.getQuantity()) {
+			items.addAll(items);
 
-				String errorMessage = "";
-				model.addAttribute("errorMessage", errorMessage);
+			UserOrder order = new UserOrder(user, items, total);
 
-				view= "views/order";
-			} else {
-				items.add(item);
+			if (request.getParameter("payment_method").equals("Visa")) {
+
+				Visa visa = new Visa(request.getParameter("name"), request.getParameter("cardNumber"),
+						request.getParameter("expires"));
+
+				if (order.pay(visa, cart)) {
+					orderService.saveOrder(order);
+					itemService.updateStock(cart_items);
+					cartItemsService.emptyCart(cartItemsService.findByCartId(cart.getId()));
+
+					view = "views/visaSuccess";
+				} else {
+					String visaError = "";
+					model.addAttribute("visaError", visaError);
+					model.addAttribute("total", total);
+					view = "views/order";
+				}
+			} else if (request.getParameter("payment_method").equals("Mastercard")) {
+
+				MasterCard mastercard = new MasterCard(request.getParameter("name"), request.getParameter("cardNumber"),
+						request.getParameter("expires"));
+
+				if (order.pay(mastercard, cart)) {
+					orderService.saveOrder(order);
+					itemService.updateStock(cart_items);
+					cartItemsService.emptyCart(cartItemsService.findByCartId(cart.getId()));
+
+					view = "views/masterSuccess";
+				} else {
+					String mastercardError = "";
+					model.addAttribute("total", total);
+					model.addAttribute("mastercardError", mastercardError);
+					view = "views/order";
+				}
 			}
+			return view;
+
 		}
-		
-		UserOrder order = new UserOrder(user, items, total);
-
-		if (request.getParameter("payment_method").equals("Visa")) {
-
-			Visa visa = new Visa(request.getParameter("name"), request.getParameter("cardNumber"),
-					request.getParameter("expires"));
-
-			if (order.pay(visa, cart)) {
-				orderService.saveOrder(order);
-				cartItemsService.emptyCart(cartItemsService.findByCartId(cart.getId()));
-
-				view= "views/visaSuccess";
-			} else {
-				String visaError = "";
-				model.addAttribute("visaError", visaError);
-				view= "views/order";
-			}
-		} else if (request.getParameter("payment_method").equals("Mastercard")) {
-
-			MasterCard mastercard = new MasterCard(request.getParameter("name"), request.getParameter("cardNumber"),
-					request.getParameter("expires"));
-
-			if (order.pay(mastercard, cart)) {
-				orderService.saveOrder(order);
-				cartItemsService.emptyCart(cartItemsService.findByCartId(cart.getId()));
-
-				view = "views/masterSuccess";
-			} else {
-				String mastercardError = "";
-				model.addAttribute("mastercardError", mastercardError);
-				view = "views/order";
-			}
+		else {
+			model.addAttribute("total", total);
+		return "views/order";
 		}
-		return view;
-
 	}
 }
