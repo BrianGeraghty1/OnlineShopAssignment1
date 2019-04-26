@@ -41,7 +41,8 @@ public class RegisterController {
 
 		}
 		userService.createUser(user);
-		cartService.saveCart(new Cart(user));
+		Cart cart = Cart.getInstance(user);
+		cartService.saveCart(cart);
 		
 		return "views/success";
 

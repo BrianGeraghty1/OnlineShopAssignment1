@@ -38,9 +38,7 @@ public class RatingController {
 	public String viewItem(Model model, @RequestParam("id") int id) {
 		
 		Item item = itemService.findById(id);
-		System.out.println(item.getItemName());
 		ArrayList<Rating> ratings = ratingService.findByItem(item);
-		System.out.println(ratings.get(0).getComment());
 		model.addAttribute("ratings", ratings);
 		model.addAttribute("rating", new Rating());
 		model.addAttribute("name", item.getItemName());

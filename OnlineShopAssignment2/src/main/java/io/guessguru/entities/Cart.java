@@ -23,6 +23,7 @@ public class Cart {
 	private User user;
 	@OneToMany(mappedBy="cart")
 	private Set<CartItems> cartItems;
+	private static Cart cart;
 
 	public Set<CartItems> getCartItems() {
 		return cartItems;
@@ -54,6 +55,13 @@ public class Cart {
 	
 	public Cart() {
 		
+	}
+	
+	public static Cart getInstance(User user) {
+		if(cart == null) {
+			cart = new Cart(user);
+		}
+		return cart;
 	}
 	
 	public double calculateTotal() {
